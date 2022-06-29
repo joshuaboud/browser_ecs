@@ -5,6 +5,8 @@ import AppearanceComponent from './ECS/Components/AppearanceComponent';
 import PositionComponent from './ECS/Components/PositionComponent';
 import CameraComponent from './ECS/Components/CameraComponent';
 import RenderSystem from './ECS/Systems/RenderSystem';
+import KeyboardMovementComponent from './ECS/Components/KeyboardMovementComponent';
+import KeyboardInputSystem from './ECS/Systems/KeyboardInput';
 
 const app = document.querySelector<HTMLDivElement>('#app')!
 
@@ -31,12 +33,13 @@ const playerSprite = new Image();
 
 const player = new Entity()
 	.addComponent(new PositionComponent(width / 2, height / 2))
-	.addComponent(new CameraComponent(ctx, width, height));
+	.addComponent(new CameraComponent(ctx, width, height))
+	.addComponent(new KeyboardMovementComponent(0.5));
 
 playerSprite.onload = () =>
 	createImageBitmap(playerSprite)
 		.then(bm =>
-			player.addComponent(new AppearanceComponent(bm, bm.width * 4, bm.height * 4)));
+			player.addComponent(new AppearanceComponent(bm, bm.width, bm.height)));
 
 playerSprite.src = 'assets/player.png';
 
@@ -44,15 +47,15 @@ playerSprite.src = 'assets/player.png';
 
 const ecs = new ECS()
 	.registerEntities(player)
-	.registerSystem(RenderSystem);
+	.registerSystem(RenderSystem, KeyboardInputSystem);
 
 const starSprite = new Image();
 starSprite.onload = () =>
 	createImageBitmap(starSprite)
 		.then(bm => {
 			const stars = [];
-			for (let i = 0; i < 20; i++) {
-				const scale = (1 - Math.random() * 0.75);
+			for (let i = 0; i < 1000; i++) {
+				const scale = (1 - Math.random() * 0.90);
 				stars.push(new Entity()
 					.addComponent(new PositionComponent(Math.random() * width, Math.random() * height))
 					.addComponent(new AppearanceComponent(bm, bm.width * scale, bm.height * scale)));
