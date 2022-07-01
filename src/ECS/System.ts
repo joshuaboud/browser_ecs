@@ -1,6 +1,5 @@
-import Entity from "./Entity";
+import ECS from "./ECS";
 
 export default interface System {
-	relevantComponents?: Array<string>;
-	(entities: Array<Entity>, delta: number): void
+	(ecs: ECS, delta: number): void
 }

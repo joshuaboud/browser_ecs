@@ -24,9 +24,6 @@ ctx.imageSmoothingEnabled = false;
 const width = cnv.width = window.innerWidth;
 const height = cnv.height = window.innerHeight;
 
-ctx.fillStyle = 'black';
-ctx.fillRect(0, 0, width, height);
-
 app.appendChild(cnv);
 
 const playerSprite = new Image();
@@ -54,10 +51,10 @@ starSprite.onload = () =>
 	createImageBitmap(starSprite)
 		.then(bm => {
 			const stars = [];
-			for (let i = 0; i < 1000; i++) {
+			for (let i = 0; i < 2000; i++) {
 				const scale = (1 - Math.random() * 0.90);
 				stars.push(new Entity()
-					.addComponent(new PositionComponent(Math.random() * width, Math.random() * height))
+					.addComponent(new PositionComponent((Math.random() * width * 4) - width, (Math.random() * height * 4) - height))
 					.addComponent(new AppearanceComponent(bm, bm.width * scale, bm.height * scale)));
 			};
 			ecs.registerEntities(...stars);

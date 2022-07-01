@@ -1,14 +1,12 @@
 import System from "../System";
-import Entity from "../Entity";
 import PositionComponent from "../Components/PositionComponent";
 import KeyboardMovementComponent from "../Components/KeyboardMovementComponent";
+import ECS from "../ECS";
 
-const KeyboardInputSystem: System = function (entities: Array<Entity>, delta: number): void {
-	const entityCount = entities.length;
-	for (let i = 0; i < entityCount; i++) {
-		const entity = entities[i];
-		const position = PositionComponent.getEntityComponent<PositionComponent>(entity);
-		const movement = KeyboardMovementComponent.getEntityComponent<KeyboardMovementComponent>(entity);
+const KeyboardInputSystem: System = function (ecs: ECS, delta: number): void {
+	for (const [_entityId, entity] of ecs.entities.entries()) {
+		const position = entity.components.get(PositionComponent.key) as PositionComponent | undefined;
+		const movement = entity.components.get(KeyboardMovementComponent.key) as KeyboardMovementComponent | undefined;
 		if (position && movement) {
 			const posDelta = movement.speed * delta;
 			const posDeltaVec = { x: 0, y: 0 };
@@ -28,10 +26,5 @@ const KeyboardInputSystem: System = function (entities: Array<Entity>, delta: nu
 		}
 	}
 }
-
-KeyboardInputSystem.relevantComponents = [
-	KeyboardMovementComponent.key,
-	PositionComponent.key,
-]
 
 export default KeyboardInputSystem;
