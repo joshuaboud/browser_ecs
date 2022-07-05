@@ -1,13 +1,32 @@
 import Entity from "./Entity";
 import System from "./System";
 
+let eventTally = 0;
+
 class ECS {
 	entities: Map<number, Entity> = new Map();
 	systems: Array<System> = [];
 	running: boolean = true;
 	tick: number = 0;
+	keysHeld: { [key: string]: boolean } = {};
+	keyEvents: KeyboardEvent[] = [];
 	constructor() {
-
+		window.addEventListener('keydown', (event: KeyboardEvent) => {
+			if (!event.repeat && !this.keysHeld[event.key]) {
+				eventTally++;
+				console.log('ECS events received', eventTally);
+				this.keyEvents.push(event);
+			}
+			this.keysHeld[event.key] = true;
+		}, { passive: true });
+		window.addEventListener('keyup', (event: KeyboardEvent) => {
+			if (!event.repeat && this.keysHeld[event.key]) {
+				eventTally++;
+				console.log('ECS events received', eventTally);
+				this.keyEvents.push(event);
+			}
+			this.keysHeld[event.key] = false;
+		}, { passive: true });
 	}
 
 	registerEntities(...entities: Array<Entity>): ECS {

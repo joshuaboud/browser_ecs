@@ -3,6 +3,7 @@ import AppearanceComponent from "../Components/AppearanceComponent";
 import PositionComponent from "../Components/PositionComponent";
 import CameraComponent from "../Components/CameraComponent";
 import ECS from "../ECS";
+import KinematicsComponent from "../Components/KinematicsComponent";
 
 let FPS: number;
 
@@ -11,11 +12,11 @@ const RenderSystem: System = function (ecs: ECS, delta: number): void {
 		const camera = cameraEntity.components.get(CameraComponent.key) as CameraComponent | undefined;
 		if (!camera)
 			continue;
-		const cameraPosition = cameraEntity.components.get(PositionComponent.key) as PositionComponent | undefined;
+		const cameraPosition = cameraEntity.components.get(KinematicsComponent.key) as KinematicsComponent | undefined;
 		if (!cameraPosition)
 			throw new Error('Camera has no position component!');
-		const cameraXOffset = -1 * (cameraPosition.x - camera.width / 2);
-		const cameraYOffset = -1 * (cameraPosition.y - camera.height / 2);
+		const cameraXOffset = -1 * (cameraPosition.d[0] - camera.width / 2);
+		const cameraYOffset = -1 * (cameraPosition.d[1] - camera.height / 2);
 		camera.ctx.fillStyle = 'black';
 		camera.ctx.fillRect(0, 0, camera.width, camera.height);
 		camera.ctx.imageSmoothingEnabled = false;
@@ -23,13 +24,13 @@ const RenderSystem: System = function (ecs: ECS, delta: number): void {
 			const appearance = entity.components.get(AppearanceComponent.key) as AppearanceComponent | undefined;
 			if (!appearance)
 				continue;
-			const position = entity.components.get(PositionComponent.key) as PositionComponent | undefined;
-			if (!position)
-				throw new Error('Entity with appearance component has no position component!');
+			const kine = entity.components.get(KinematicsComponent.key) as KinematicsComponent | undefined;
+			if (!kine)
+				throw new Error('Entity with appearance component has no kinematics component!');
 			camera.ctx.drawImage(
 				appearance.sprite,
-				position.x - appearance.width / 2 + cameraXOffset,
-				position.y - appearance.height / 2 + cameraYOffset,
+				kine.d[0] - appearance.width / 2 + cameraXOffset,
+				kine.d[1] - appearance.height / 2 + cameraYOffset,
 				appearance.width,
 				appearance.height,
 			);
