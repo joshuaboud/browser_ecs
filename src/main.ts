@@ -40,11 +40,11 @@ app.appendChild(cnv);
 const playerSprite = new Image();
 
 const player = new Entity()
-	.addComponent(new VelocityPDComponent(0.01, 0, [0, 0, 0]))
-	// .addComponent(new PositionPDComponent(0.01, 0.01, [width / 2, height / 2, 0]))
+	// .addComponent(new VelocityPDComponent(0.01, 0, [0, 0, 0]))
+	.addComponent(new PositionPDComponent(0.01, 0, [width / 2, height / 2, 0]))
 	.addComponent(new KinematicsComponent([width / 2, height / 2]))
 	.addComponent(camera)
-	.addComponent(new KeyboardMovementComponent(0.5, 'v', false));
+	.addComponent(new KeyboardMovementComponent(30, 'd', true));
 
 playerSprite.onload = () =>
 	createImageBitmap(playerSprite)
@@ -75,7 +75,7 @@ starSprite.onload = () =>
 			for (let i = 0; i < 2000; i++) {
 				const scale = (1 - Math.random() * 0.90);
 				stars.push(new Entity()
-					.addComponent(new KinematicsComponent([(Math.random() * width * 4) - width, (Math.random() * height * 4) - height]))
+					.addComponent(new KinematicsComponent([Math.floor((Math.random() * width * 4) - width), Math.floor((Math.random() * height * 4) - height)]))
 					.addComponent(new AppearanceComponent(bm, bm.width * scale, bm.height * scale)));
 			};
 			ecs.registerEntities(...stars);

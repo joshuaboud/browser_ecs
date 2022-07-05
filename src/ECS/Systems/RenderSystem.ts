@@ -1,6 +1,5 @@
 import System from "../System";
 import AppearanceComponent from "../Components/AppearanceComponent";
-import PositionComponent from "../Components/PositionComponent";
 import CameraComponent from "../Components/CameraComponent";
 import ECS from "../ECS";
 import KinematicsComponent from "../Components/KinematicsComponent";
@@ -29,8 +28,8 @@ const RenderSystem: System = function (ecs: ECS, delta: number): void {
 				throw new Error('Entity with appearance component has no kinematics component!');
 			camera.ctx.drawImage(
 				appearance.sprite,
-				kine.d[0] - appearance.width / 2 + cameraXOffset,
-				kine.d[1] - appearance.height / 2 + cameraYOffset,
+				Math.floor(kine.d[0] - appearance.width / 2 + cameraXOffset),
+				Math.floor(kine.d[1] - appearance.height / 2 + cameraYOffset),
 				appearance.width,
 				appearance.height,
 			);
