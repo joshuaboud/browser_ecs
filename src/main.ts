@@ -43,10 +43,10 @@ app.appendChild(cnv);
 const playerSprite = new Image();
 
 const player = new Entity()
-	.addComponent(new VelocityPDComponent(0.01, 0, [0, 0, 0]))
-	// .addComponent(new PositionPDComponent(0.005, 0, [width / 2, height / 2, 0]))
 	.addComponent(new KinematicsComponent([width / 2, height / 2]))
-	.addComponent(new KeyboardMovementComponent(0.25, 'v'));
+	.addComponent(new KeyboardMovementComponent(0.05, 'v'))
+	.addComponent(new VelocityPDComponent(0.0075, 0, [0, 0, 0]));
+	// .addComponent(new PositionPDComponent(0.005, 0, [width / 2, height / 2, 0]))
 
 playerSprite.onload = () =>
 	createImageBitmap(playerSprite)
@@ -57,12 +57,12 @@ playerSprite.src = 'assets/player.png';
 
 const camera = new Entity()
 	.addComponent(new KinematicsComponent([width / 2, height / 2]))
-	.addComponent(new PositionTrackerComponent(player.id, [50, 0, 0], true, 0.4))
+	.addComponent(new PositionTrackerComponent(player.id, [30, 0, 0], true, 0.11))
 	.addComponent(cameraComponent);
 
 const light = new Entity()
 	.addComponent(new KinematicsComponent([width / 2, height / 2]))
-	.addComponent(new PositionTrackerComponent(player.id, [20, 0, 0], true, 0.5))
+	.addComponent(new PositionTrackerComponent(player.id, [15, 0, 0], true, 0.5))
 	.addComponent(new KeyboardEventComponent((entity, event) => {
 		if (event.key === ' ' && event.type === 'keydown') {
 			const appearance = entity.components.get(AppearanceComponent.key) as AppearanceComponent | undefined;
