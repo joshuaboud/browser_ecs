@@ -7,7 +7,7 @@ class ECS {
 	entities: Map<number, Entity> = new Map();
 	systems: Array<System> = [];
 	running: boolean = true;
-	tick: number = 0;
+	tick: { start: number | undefined, last: number } = { start: undefined, last: 0 };
 	keysHeld: { [key: string]: boolean } = {};
 	keyEvents: KeyboardEvent[] = [];
 	constructor() {
@@ -57,22 +57,22 @@ class ECS {
 		return this;
 	}
 
-	gameLoop() {
-		const delta = Date.now() - this.tick;
-		this.tick += delta;
+	gameLoop(ts: number) {
+		if (this.tick.start === undefined)
+			this.tick.start = ts;
+		const frameMilliseconds = ts - this.tick.last;
+		this.tick.last = ts;
 		const systemsCount = this.systems.length;
 		for (let i = 0; i < systemsCount; i++) {
-			this.systems[i](this, delta);
+			this.systems[i](this, frameMilliseconds);
 		}
-
 		if (this.running !== false) {
-			requestAnimationFrame(() => this.gameLoop());
+			requestAnimationFrame(this.gameLoop.bind(this));
 		}
 	}
 
 	run(): void {
-		this.tick = Date.now();
-		requestAnimationFrame(() => this.gameLoop());
+		requestAnimationFrame(this.gameLoop.bind(this));
 	}
 }
 

@@ -6,13 +6,11 @@ export default class BasePDComponent extends BaseComponent {
 	readonly key: string = BasePDComponent.key;
 	kp: number;
 	kd: number;
-	setpoint: vec3;
 	lastError: vec3;
-	constructor(kp: number, kd: number, setpoint: vec3) {
+	constructor(kp: number, kd: number) {
 		super();
 		this.kp = kp;
 		this.kd = kd;
-		this.setpoint = setpoint;
 		this.lastError = vec3.fromValues(0, 0, 0);
 	}
 }

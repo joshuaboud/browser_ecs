@@ -13,16 +13,16 @@ const PDSystem: System = function (ecs: ECS, delta: number): void {
 		const posPd = entity.components.get(PositionPDComponent.key) as PositionPDComponent | undefined;
 		const velPd = entity.components.get(VelocityPDComponent.key) as VelocityPDComponent | undefined;
 		if (velPd) {
-			const error = vec3.sub(vec3.create(), velPd.setpoint, kine.v);
-			const dError = vec3.scale(vec3.create(), vec3.sub(vec3.create(), error, velPd.lastError), 1 / delta);
+			const error = vec3.sub([0, 0, 0], velPd.v, kine.v);
+			const dError = vec3.scale([0, 0, 0], vec3.sub([0, 0, 0], velPd.lastError, error), 1 / delta);
 			velPd.lastError = error;
-			vec3.add(kine.a, vec3.scale(vec3.create(), error, velPd.kp), vec3.scale(vec3.create(), dError, velPd.kd));
+			vec3.add(kine.a, vec3.scale([0, 0, 0], error, velPd.kp), vec3.scale([0, 0, 0], dError, velPd.kd));
 		}
 		if (posPd) {
-			const error = vec3.sub(vec3.create(), posPd.setpoint, kine.d);
-			const dError = vec3.scale(vec3.create(), vec3.sub(vec3.create(), error, posPd.lastError), 1 / delta);
+			const error = vec3.sub([0, 0, 0], posPd.d, kine.d);
+			const dError = vec3.scale([0, 0, 0], vec3.sub([0, 0, 0], posPd.lastError, error), 1 / delta);
 			posPd.lastError = error;
-			vec3.add(kine.v, vec3.scale(vec3.create(), error, posPd.kp), vec3.scale(vec3.create(), dError, posPd.kd));
+			vec3.add(kine.v, vec3.scale([0, 0, 0], error, posPd.kp), vec3.scale([0, 0, 0], dError, posPd.kd));
 		}
 	}
 }

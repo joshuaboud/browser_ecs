@@ -21,7 +21,7 @@ const RenderSystem: System = function (ecs: ECS, delta: number): void {
 		camera.ctx.imageSmoothingEnabled = false;
 		for (const entity of ecs.entities.values()) {
 			const appearance = entity.components.get(AppearanceComponent.key) as AppearanceComponent | undefined;
-			if (!appearance)
+			if (!appearance || appearance.hidden)
 				continue;
 			const kine = entity.components.get(KinematicsComponent.key) as KinematicsComponent | undefined;
 			if (!kine)
@@ -34,7 +34,7 @@ const RenderSystem: System = function (ecs: ECS, delta: number): void {
 				appearance.height,
 			);
 			const FPSinst = 1000 / delta;
-			FPS = FPSinst * 0.00005 + (FPS ?? FPSinst) * (1 - 0.00005);
+			FPS = FPSinst * 0.0000125 + (FPS ?? FPSinst) * (1 - 0.0000125);
 			camera.ctx.fillStyle = 'lightblue';
 			camera.ctx.font = '16pt monospace'
 			camera.ctx.fillText(`FPS: ${Math.round(FPS)}`, 10, 25);

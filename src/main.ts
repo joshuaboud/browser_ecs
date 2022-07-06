@@ -11,6 +11,9 @@ import KinematicsComponent from './ECS/Components/KinematicsComponent';
 import PositionPDComponent from './ECS/Components/PositionPDComponent';
 import VelocityPDComponent from './ECS/Components/VelocityPDComponent';
 import PDSystem from './ECS/Systems/PDSystem';
+import TrackerSystem from './ECS/Systems/TrackerSystem';
+import PositionTrackerComponent from './ECS/Components/PostionTrackerComponent';
+import KeyboardEventComponent from './ECS/Components/KeyboardEventComponent';
 
 const app = document.querySelector<HTMLDivElement>('#app')!
 
@@ -29,10 +32,10 @@ ctx.imageSmoothingEnabled = false;
 let width: number, height: number;
 cnv.width = (width = window.innerWidth);
 cnv.height = (height = window.innerHeight);
-const camera = new CameraComponent(ctx, width, height);
+const cameraComponent = new CameraComponent(ctx, width, height);
 window.addEventListener('resize', (_event) => {
-	cnv.width = (camera.width = window.innerWidth);
-	cnv.height = (camera.height = window.innerHeight);
+	cnv.width = (cameraComponent.width = window.innerWidth);
+	cnv.height = (cameraComponent.height = window.innerHeight);
 })
 
 app.appendChild(cnv);
@@ -40,11 +43,10 @@ app.appendChild(cnv);
 const playerSprite = new Image();
 
 const player = new Entity()
-	// .addComponent(new VelocityPDComponent(0.01, 0, [0, 0, 0]))
-	.addComponent(new PositionPDComponent(0.01, 0, [width / 2, height / 2, 0]))
+	.addComponent(new VelocityPDComponent(0.01, 0, [0, 0, 0]))
+	// .addComponent(new PositionPDComponent(0.005, 0, [width / 2, height / 2, 0]))
 	.addComponent(new KinematicsComponent([width / 2, height / 2]))
-	.addComponent(camera)
-	.addComponent(new KeyboardMovementComponent(30, 'd', true));
+	.addComponent(new KeyboardMovementComponent(0.25, 'v'));
 
 playerSprite.onload = () =>
 	createImageBitmap(playerSprite)
@@ -53,9 +55,26 @@ playerSprite.onload = () =>
 
 playerSprite.src = 'assets/player.png';
 
+const camera = new Entity()
+	.addComponent(new KinematicsComponent([width / 2, height / 2]))
+	.addComponent(new PositionTrackerComponent(player.id, [50, 0, 0], true, 0.4))
+	.addComponent(cameraComponent);
+
+const light = new Entity()
+	.addComponent(new KinematicsComponent([width / 2, height / 2]))
+	.addComponent(new PositionTrackerComponent(player.id, [20, 0, 0], true, 0.5))
+	.addComponent(new KeyboardEventComponent((entity, event) => {
+		if (event.key === ' ' && event.type === 'keydown') {
+			const appearance = entity.components.get(AppearanceComponent.key) as AppearanceComponent | undefined;
+			if (appearance) {
+				appearance.hidden = !appearance.hidden;
+			}
+		}
+	}))
+
 const ecs = new ECS()
-	.registerEntities(player)
-	.registerSystem(KeyboardInputSystem, PDSystem, KinematicsSystem, RenderSystem);
+	.registerEntities(player, camera, light)
+	.registerSystem(KeyboardInputSystem, PDSystem, KinematicsSystem, TrackerSystem, RenderSystem);
 
 // ecs.keyEvents.sub(' ', (val) => {
 // 	if (!val)
@@ -71,12 +90,12 @@ const starSprite = new Image();
 starSprite.onload = () =>
 	createImageBitmap(starSprite)
 		.then(bm => {
+			light.addComponent(new AppearanceComponent(bm, bm.width, bm.height));
 			const stars = [];
-			for (let i = 0; i < 2000; i++) {
-				const scale = (1 - Math.random() * 0.90);
+			for (let i = 0; i < 1000; i++) {
 				stars.push(new Entity()
 					.addComponent(new KinematicsComponent([Math.floor((Math.random() * width * 4) - width), Math.floor((Math.random() * height * 4) - height)]))
-					.addComponent(new AppearanceComponent(bm, bm.width * scale, bm.height * scale)));
+					.addComponent(new AppearanceComponent(bm, bm.width, bm.height)));
 			};
 			ecs.registerEntities(...stars);
 		});

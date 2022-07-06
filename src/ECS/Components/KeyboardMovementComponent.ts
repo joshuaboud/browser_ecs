@@ -1,5 +1,4 @@
 import { BaseComponent } from "../Component";
-import { vec3 } from "gl-matrix";
 
 export default class KeyboardMovementComponent extends BaseComponent {
 	static readonly key: string = 'KeyboardMovementComponent';

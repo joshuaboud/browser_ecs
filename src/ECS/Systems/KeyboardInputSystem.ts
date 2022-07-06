@@ -3,7 +3,7 @@
 // 		deltaD,
 // 		deltaD,
 // 		vec3.scale(
-// 			vec3.create(),
+// 			[0, 0, 0],
 // 			vec3.fromValues(
 // 				(ecs.keysHeld.a ? -1 : 0) + (ecs.keysHeld.d ? 1 : 0),
 // 				(ecs.keysHeld.w ? -1 : 0) + (ecs.keysHeld.s ? 1 : 0),
@@ -21,6 +21,7 @@ import KeyboardMovementComponent from "../Components/KeyboardMovementComponent";
 import { vec3 } from "gl-matrix";
 import PositionPDComponent from "../Components/PositionPDComponent";
 import VelocityPDComponent from "../Components/VelocityPDComponent";
+import KeyboardEventComponent from "../Components/KeyboardEventComponent";
 
 const movementLut: { [key: string]: vec3 | undefined } = {
 	'w': vec3.fromValues(0, -1, 0),
@@ -47,27 +48,35 @@ const KeyboardInputSystem: System = function (ecs: ECS, _delta: number): void {
 				vec3.sub(subtractive, subtractive, dvi);
 		}
 		return [additive, subtractive];
-	}, [vec3.create(), vec3.create()]);
+	}, [[0, 0, 0], [0, 0, 0]]);
 	for (const entity of ecs.entities.values()) {
+		const keyboardEvent = entity.components.get(KeyboardEventComponent.key) as KeyboardEventComponent | undefined;
+		if (keyboardEvent) {
+			for (let i = 0; i < keyEvents.length; i++) {
+				keyboardEvent.callback(entity, keyEvents[i]);
+			}
+		}
 		const movement = entity.components.get(KeyboardMovementComponent.key) as KeyboardMovementComponent | undefined;
 		if (!movement)
 			continue;
+		const kine = entity.components.get(KinematicsComponent.key) as KinematicsComponent | undefined;
+		if (!kine)
+			continue;
+		const position = entity.components.get(PositionPDComponent.key) as PositionPDComponent | undefined ?? kine;
+		const velocity = entity.components.get(VelocityPDComponent.key) as VelocityPDComponent | undefined ?? kine;
 		let target: vec3;
-		const positionPd = entity.components.get(PositionPDComponent.key) as PositionPDComponent | undefined;
-		const velocityPd = entity.components.get(VelocityPDComponent.key) as VelocityPDComponent | undefined;
-		if (movement.affects === 'd' && positionPd) {
-			target = positionPd.setpoint;
-		} else if (movement.affects === 'v' && velocityPd) {
-			target = velocityPd.setpoint;
+		if (movement.affects === 'd') {
+			target = position.d;
+		} else if (movement.affects === 'v') {
+			target = velocity.v;
+		} else if (movement.affects === 'a') {
+			target = kine.a;
 		} else {
-			const kine = entity.components.get(KinematicsComponent.key) as KinematicsComponent | undefined;
-			if (!kine)
-				continue;
-			target = kine[movement.affects];
+			throw new Error(`Illegal KeyboardMovementComponent.affects: ${movement.affects}`);
 		}
-		vec3.add(target, target, vec3.scale(vec3.create(), additive, movement.speed));
+		vec3.add(target, target, vec3.scale([0, 0, 0], additive, movement.speed));
 		if (!movement.temporary)
-			vec3.add(target, target, vec3.scale(vec3.create(), subtractive, movement.speed));
+			vec3.add(target, target, vec3.scale([0, 0, 0], subtractive, movement.speed));
 	}
 }
 

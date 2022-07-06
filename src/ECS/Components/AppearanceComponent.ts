@@ -6,10 +6,12 @@ export default class AppearanceComponent extends BaseComponent {
 	public sprite: CanvasImageSource;
 	width: number;
 	height: number;
-	constructor(sprite: CanvasImageSource, width: number, height: number) {
+	hidden: boolean;
+	constructor(sprite: CanvasImageSource, width: number, height: number, hidden: boolean = false) {
 		super();
 		this.sprite = sprite;
 		this.width = width;
 		this.height = height;
+		this.hidden = hidden;
 	}
 }
