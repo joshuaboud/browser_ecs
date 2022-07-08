@@ -1,9 +1,9 @@
-import { BaseComponent } from "../Component";
+import BaseComponent from "../Component";
 import { vec3 } from 'gl-matrix';
 
 export default class KinematicsComponent extends BaseComponent {
-	static readonly key: string = 'KinematicsComponent';
-	readonly key: string = KinematicsComponent.key;
+	static readonly key: unique symbol = Symbol('KinematicsComponent');
+	readonly key: symbol = KinematicsComponent.key;
 	d: vec3;
 	v: vec3;
 	a: vec3;

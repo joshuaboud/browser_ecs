@@ -8,10 +8,10 @@ let FPS: number;
 
 const RenderSystem: System = function (ecs: ECS, delta: number): void {
 	for (const cameraEntity of ecs.entities.values()) {
-		const camera = cameraEntity.components.get(CameraComponent.key) as CameraComponent | undefined;
+		const camera = cameraEntity.components[CameraComponent.key];
 		if (!camera)
 			continue;
-		const cameraPosition = cameraEntity.components.get(KinematicsComponent.key) as KinematicsComponent | undefined;
+		const cameraPosition = cameraEntity.components[KinematicsComponent.key];
 		if (!cameraPosition)
 			throw new Error('Camera has no position component!');
 		const cameraXOffset = -1 * (cameraPosition.d[0] - camera.width / 2);
@@ -20,10 +20,10 @@ const RenderSystem: System = function (ecs: ECS, delta: number): void {
 		camera.ctx.fillRect(0, 0, camera.width, camera.height);
 		camera.ctx.imageSmoothingEnabled = false;
 		for (const entity of ecs.entities.values()) {
-			const appearance = entity.components.get(AppearanceComponent.key) as AppearanceComponent | undefined;
+			const appearance = entity.components[AppearanceComponent.key];
 			if (!appearance || appearance.hidden)
 				continue;
-			const kine = entity.components.get(KinematicsComponent.key) as KinematicsComponent | undefined;
+			const kine = entity.components[KinematicsComponent.key];
 			if (!kine)
 				throw new Error('Entity with appearance component has no kinematics component!');
 			camera.ctx.drawImage(

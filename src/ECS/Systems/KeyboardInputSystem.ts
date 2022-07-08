@@ -50,20 +50,20 @@ const KeyboardInputSystem: System = function (ecs: ECS, _delta: number): void {
 		return [additive, subtractive];
 	}, [[0, 0, 0], [0, 0, 0]]);
 	for (const entity of ecs.entities.values()) {
-		const keyboardEvent = entity.components.get(KeyboardEventComponent.key) as KeyboardEventComponent | undefined;
+		const keyboardEvent = entity.components[KeyboardEventComponent.key];
 		if (keyboardEvent) {
 			for (let i = 0; i < keyEvents.length; i++) {
 				keyboardEvent.callback(entity, keyEvents[i]);
 			}
 		}
-		const movement = entity.components.get(KeyboardMovementComponent.key) as KeyboardMovementComponent | undefined;
+		const movement = entity.components[KeyboardMovementComponent.key];
 		if (!movement)
 			continue;
-		const kine = entity.components.get(KinematicsComponent.key) as KinematicsComponent | undefined;
+		const kine = entity.components[KinematicsComponent.key];
 		if (!kine)
 			continue;
-		const position = entity.components.get(PositionPDComponent.key) as PositionPDComponent | undefined ?? kine;
-		const velocity = entity.components.get(VelocityPDComponent.key) as VelocityPDComponent | undefined ?? kine;
+		const position = entity.components[PositionPDComponent.key] ?? kine;
+		const velocity = entity.components[VelocityPDComponent.key] ?? kine;
 		let target: vec3;
 		if (movement.affects === 'd') {
 			target = position.d;

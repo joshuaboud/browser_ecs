@@ -5,7 +5,7 @@ import { vec3 } from "gl-matrix";
 
 const KinematicsSystem: System = function (ecs: ECS, delta: number): void {
 	for (const entity of ecs.entities.values()) {
-		const kine = entity.components.get(KinematicsComponent.key) as KinematicsComponent | undefined;
+		const kine = entity.components[KinematicsComponent.key];
 		if (!kine)
 			continue;
 		vec3.scale([0, 0, 0], kine.a, delta);

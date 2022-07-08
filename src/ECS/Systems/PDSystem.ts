@@ -7,11 +7,11 @@ import VelocityPDComponent from "../Components/VelocityPDComponent";
 
 const PDSystem: System = function (ecs: ECS, delta: number): void {
 	for (const entity of ecs.entities.values()) {
-		const kine = entity.components.get(KinematicsComponent.key) as KinematicsComponent | undefined;
+		const kine = entity.components[KinematicsComponent.key];
 		if (!kine)
 			return;
-		const posPd = entity.components.get(PositionPDComponent.key) as PositionPDComponent | undefined;
-		const velPd = entity.components.get(VelocityPDComponent.key) as VelocityPDComponent | undefined;
+		const posPd = entity.components[PositionPDComponent.key];
+		const velPd = entity.components[VelocityPDComponent.key];
 		if (velPd) {
 			const error = vec3.sub([0, 0, 0], velPd.v, kine.v);
 			const dError = vec3.scale([0, 0, 0], vec3.sub([0, 0, 0], velPd.lastError, error), 1 / delta);

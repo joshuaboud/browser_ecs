@@ -6,13 +6,13 @@ import { vec3, quat } from "gl-matrix";
 
 const TrackerSystem: System = function (ecs: ECS, delta: number): void {
 	for (const entity of ecs.entities.values()) {
-		const position = entity.components.get(KinematicsComponent.key) as KinematicsComponent | undefined;
-		// const positionSetpoint = entity.components.get(PositionPDComponent.key) as PositionPDComponent | undefined ?? position;
-		const positionTracker = entity.components.get(PositionTrackerComponent.key) as PositionTrackerComponent | undefined;
+		const position = entity.components[KinematicsComponent.key];
+		// const positionSetpoint = entity.components[PositionPDComponent.key];
+		const positionTracker = entity.components[PositionTrackerComponent.key];
 		if (positionTracker && position) {
 			const trackee = ecs.entities.get(positionTracker.entityId);
 			if (trackee) {
-				const trackeeKine = trackee.components.get(KinematicsComponent.key) as KinematicsComponent | undefined;
+				const trackeeKine = trackee.components[KinematicsComponent.key];
 				if (trackeeKine) {
 					const offset = vec3.clone(positionTracker.offset);
 					if (positionTracker.offsetFollowsDirection) {

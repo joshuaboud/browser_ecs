@@ -1,11 +1,25 @@
-import { BaseComponent } from "../Component";
+import BaseComponent from "../Component";
 import { vec3 } from 'gl-matrix';
 
-export default class BasePDComponent extends BaseComponent {
-	static readonly key: string = 'BasePDComponent';
-	readonly key: string = BasePDComponent.key;
+export interface Component {
 	kp: number;
 	kd: number;
+	lastError: vec3;
+}
+
+export default class BasePDComponent extends BaseComponent {
+	readonly key: symbol = Symbol();
+	/**
+	 * Proportional PD controller coefficient
+	 */
+	kp: number;
+	/**
+	 * Derivative PD controller coefficient
+	 */
+	kd: number;
+	/**
+	 * Holds last error for calculating derivative
+	 */
 	lastError: vec3;
 	constructor(kp: number, kd: number) {
 		super();

@@ -1,9 +1,9 @@
 import { vec3 } from "gl-matrix";
-import { BaseComponent } from "../Component";
+import BaseComponent from "../Component";
 
 export default class PositionTrackerComponent extends BaseComponent {
-	static readonly key: string = 'PositionTrackerComponent';
-	readonly key: string = PositionTrackerComponent.key;
+	static readonly key: unique symbol = Symbol('PositionTrackerComponent');
+	readonly key: symbol = PositionTrackerComponent.key;
 	entityId: number;
 	offset: vec3;
 	offsetFollowsDirection: boolean;

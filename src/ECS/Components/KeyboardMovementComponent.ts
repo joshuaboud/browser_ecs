@@ -1,8 +1,8 @@
-import { BaseComponent } from "../Component";
+import BaseComponent from "../Component";
 
 export default class KeyboardMovementComponent extends BaseComponent {
-	static readonly key: string = 'KeyboardMovementComponent';
-	readonly key: string = KeyboardMovementComponent.key;
+	static readonly key: unique symbol = Symbol('KeyboardMovementComponent');
+	readonly key: symbol = KeyboardMovementComponent.key;
 	speed: number;
 	affects: 'v' | 'a' | 'd';
 	temporary: boolean;
