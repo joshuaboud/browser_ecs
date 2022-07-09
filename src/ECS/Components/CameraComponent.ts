@@ -1,8 +1,13 @@
 import BaseComponent from "../Component";
 
+declare module '../Entity' {
+	interface IEntityComponents {
+		[CameraComponent.key]?: CameraComponent;
+	}
+}
+
 export default class CameraComponent extends BaseComponent {
 	static readonly key: unique symbol = Symbol('CameraComponent');
-	readonly key: symbol = CameraComponent.key;
 	/**
 	 * Context of canvas to render to
 	 */
@@ -20,5 +25,8 @@ export default class CameraComponent extends BaseComponent {
 		this.ctx = ctx;
 		this.width = width;
 		this.height = height;
+	}
+	key() {
+		return CameraComponent.key;
 	}
 }

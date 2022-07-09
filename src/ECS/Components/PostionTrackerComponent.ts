@@ -1,9 +1,14 @@
 import { vec3 } from "gl-matrix";
 import BaseComponent from "../Component";
 
+declare module '../Entity' {
+	interface IEntityComponents {
+		[PositionTrackerComponent.key]?: PositionTrackerComponent;
+	}
+}
+
 export default class PositionTrackerComponent extends BaseComponent {
 	static readonly key: unique symbol = Symbol('PositionTrackerComponent');
-	readonly key: symbol = PositionTrackerComponent.key;
 	entityId: number;
 	offset: vec3;
 	offsetFollowsDirection: boolean;
@@ -14,5 +19,8 @@ export default class PositionTrackerComponent extends BaseComponent {
 		this.offset = offset;
 		this.offsetFollowsDirection = offsetFollowsDirection;
 		this.maxSpeed = maxSpeed;
+	}
+	key() {
+		return PositionTrackerComponent.key;
 	}
 }

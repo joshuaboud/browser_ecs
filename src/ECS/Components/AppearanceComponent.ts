@@ -1,8 +1,13 @@
 import BaseComponent from "../Component";
 
+declare module '../Entity' {
+	interface IEntityComponents {
+		[AppearanceComponent.key]?: AppearanceComponent;
+	}
+}
+
 export default class AppearanceComponent extends BaseComponent {
 	static readonly key: unique symbol = Symbol('AppearanceComponent');
-	readonly key: symbol = AppearanceComponent.key;
 	public sprite: CanvasImageSource;
 	/**
 	 * Width of sprite
@@ -22,5 +27,8 @@ export default class AppearanceComponent extends BaseComponent {
 		this.width = width;
 		this.height = height;
 		this.hidden = hidden;
+	}
+	key() {
+		return AppearanceComponent.key;
 	}
 }

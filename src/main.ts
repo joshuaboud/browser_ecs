@@ -92,7 +92,7 @@ starSprite.onload = () =>
 		.then(bm => {
 			light.addComponent(new AppearanceComponent(bm, bm.width, bm.height));
 			const stars = [];
-			for (let i = 0; i < 3000; i++) {
+			for (let i = 0; i < 1000; i++) {
 				stars.push(new Entity()
 					.addComponent(new KinematicsComponent([Math.floor((Math.random() * width * 4) - width), Math.floor((Math.random() * height * 4) - height)]))
 					.addComponent(new AppearanceComponent(bm, bm.width, bm.height)));

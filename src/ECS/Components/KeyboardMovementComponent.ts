@@ -1,8 +1,13 @@
 import BaseComponent from "../Component";
 
+declare module '../Entity' {
+	interface IEntityComponents {
+		[KeyboardMovementComponent.key]?: KeyboardMovementComponent;
+	}
+}
+
 export default class KeyboardMovementComponent extends BaseComponent {
 	static readonly key: unique symbol = Symbol('KeyboardMovementComponent');
-	readonly key: symbol = KeyboardMovementComponent.key;
 	speed: number;
 	affects: 'v' | 'a' | 'd';
 	temporary: boolean;
@@ -11,5 +16,8 @@ export default class KeyboardMovementComponent extends BaseComponent {
 		this.speed = speed;
 		this.affects = affects;
 		this.temporary = temporary;
+	}
+	key() {
+		return KeyboardMovementComponent.key;
 	}
 }
