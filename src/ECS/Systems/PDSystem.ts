@@ -1,9 +1,9 @@
 import System from "../System";
 import ECS from "../ECS";
-import KinematicsComponent from "../Components/KinematicsComponent";
+import KinematicsComponent from "../Component/Components/KinematicsComponent";
 import { vec3 } from "gl-matrix";
-import PositionPDComponent from "../Components/PositionPDComponent";
-import VelocityPDComponent from "../Components/VelocityPDComponent";
+import PositionPDComponent from "../Component/Components/PositionPDComponent";
+import VelocityPDComponent from "../Component/Components/VelocityPDComponent";
 
 const PDSystem: System = function (ecs: ECS, delta: number): void {
 	for (const entity of ecs.entities.values()) {

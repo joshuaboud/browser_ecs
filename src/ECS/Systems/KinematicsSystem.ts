@@ -1,6 +1,6 @@
 import System from "../System";
 import ECS from "../ECS";
-import KinematicsComponent from "../Components/KinematicsComponent";
+import KinematicsComponent from "../Component/Components/KinematicsComponent";
 import { vec3 } from "gl-matrix";
 
 const KinematicsSystem: System = function (ecs: ECS, delta: number): void {

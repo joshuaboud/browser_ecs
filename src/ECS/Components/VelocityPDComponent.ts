@@ -1,7 +1,7 @@
 import BasePDComponent from "./BasePDComponent";
 import { vec3 } from 'gl-matrix';
 
-declare module '../Entity' {
+declare module '../../Entity' {
 	interface IEntityComponents {
 		[VelocityPDComponent.key]?: VelocityPDComponent;
 	}

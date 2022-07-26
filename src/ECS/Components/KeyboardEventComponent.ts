@@ -1,7 +1,7 @@
 import BaseComponent from "../Component";
-import Entity from "../Entity";
+import Entity from "../../Entity";
 
-declare module '../Entity' {
+declare module '../../Entity' {
 	interface IEntityComponents {
 		[KeyboardEventComponent.key]?: KeyboardEventComponent;
 	}

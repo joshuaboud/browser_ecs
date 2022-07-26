@@ -1,7 +1,7 @@
 import { vec3 } from "gl-matrix";
 import BaseComponent from "../Component";
 
-declare module '../Entity' {
+declare module '../../Entity' {
 	interface IEntityComponents {
 		[PositionTrackerComponent.key]?: PositionTrackerComponent;
 	}

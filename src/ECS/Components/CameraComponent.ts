@@ -1,6 +1,6 @@
 import BaseComponent from "../Component";
 
-declare module '../Entity' {
+declare module '../../Entity' {
 	interface IEntityComponents {
 		[CameraComponent.key]?: CameraComponent;
 	}

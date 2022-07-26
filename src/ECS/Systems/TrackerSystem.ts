@@ -1,7 +1,7 @@
 import System from "../System";
 import ECS from "../ECS";
-import KinematicsComponent from "../Components/KinematicsComponent";
-import PositionTrackerComponent from "../Components/PostionTrackerComponent";
+import KinematicsComponent from "../Component/Components/KinematicsComponent";
+import PositionTrackerComponent from "../Component/Components/PostionTrackerComponent";
 import { vec3, quat } from "gl-matrix";
 
 const TrackerSystem: System = function (ecs: ECS, delta: number): void {

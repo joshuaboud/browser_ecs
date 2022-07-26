@@ -1,19 +1,19 @@
 import './style.css'
 import ECS from './ECS/ECS';
 import Entity from './ECS/Entity';
-import AppearanceComponent from './ECS/Components/AppearanceComponent';
-import CameraComponent from './ECS/Components/CameraComponent';
+import AppearanceComponent from './ECS/Component/Components/AppearanceComponent';
+import CameraComponent from './ECS/Component/Components/CameraComponent';
 import RenderSystem from './ECS/Systems/RenderSystem';
-import KeyboardMovementComponent from './ECS/Components/KeyboardMovementComponent';
+import KeyboardMovementComponent from './ECS/Component/Components/KeyboardMovementComponent';
 import KeyboardInputSystem from './ECS/Systems/KeyboardInputSystem';
 import KinematicsSystem from './ECS/Systems/KinematicsSystem';
-import KinematicsComponent from './ECS/Components/KinematicsComponent';
-import PositionPDComponent from './ECS/Components/PositionPDComponent';
-import VelocityPDComponent from './ECS/Components/VelocityPDComponent';
+import KinematicsComponent from './ECS/Component/Components/KinematicsComponent';
+import PositionPDComponent from './ECS/Component/Components/PositionPDComponent';
+import VelocityPDComponent from './ECS/Component/Components/VelocityPDComponent';
 import PDSystem from './ECS/Systems/PDSystem';
 import TrackerSystem from './ECS/Systems/TrackerSystem';
-import PositionTrackerComponent from './ECS/Components/PostionTrackerComponent';
-import KeyboardEventComponent from './ECS/Components/KeyboardEventComponent';
+import PositionTrackerComponent from './ECS/Component/Components/PostionTrackerComponent';
+import KeyboardEventComponent from './ECS/Component/Components/KeyboardEventComponent';
 
 const app = document.querySelector<HTMLDivElement>('#app')!
 

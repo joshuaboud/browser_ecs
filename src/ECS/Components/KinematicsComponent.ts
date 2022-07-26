@@ -1,7 +1,7 @@
 import BaseComponent from "../Component";
 import { vec3 } from 'gl-matrix';
 
-declare module '../Entity' {
+declare module '../../Entity' {
 	interface IEntityComponents {
 		[KinematicsComponent.key]?: KinematicsComponent;
 	}

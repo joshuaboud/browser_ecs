@@ -1,8 +1,8 @@
 import System from "../System";
-import AppearanceComponent from "../Components/AppearanceComponent";
-import CameraComponent from "../Components/CameraComponent";
+import AppearanceComponent from "../Component/Components/AppearanceComponent";
+import CameraComponent from "../Component/Components/CameraComponent";
 import ECS from "../ECS";
-import KinematicsComponent from "../Components/KinematicsComponent";
+import KinematicsComponent from "../Component/Components/KinematicsComponent";
 
 let FPS: number;
 

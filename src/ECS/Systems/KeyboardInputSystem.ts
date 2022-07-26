@@ -16,12 +16,12 @@
 
 import System from "../System";
 import ECS from "../ECS";
-import KinematicsComponent from "../Components/KinematicsComponent";
-import KeyboardMovementComponent from "../Components/KeyboardMovementComponent";
+import KinematicsComponent from "../Component/Components/KinematicsComponent";
+import KeyboardMovementComponent from "../Component/Components/KeyboardMovementComponent";
 import { vec3 } from "gl-matrix";
-import PositionPDComponent from "../Components/PositionPDComponent";
-import VelocityPDComponent from "../Components/VelocityPDComponent";
-import KeyboardEventComponent from "../Components/KeyboardEventComponent";
+import PositionPDComponent from "../Component/Components/PositionPDComponent";
+import VelocityPDComponent from "../Component/Components/VelocityPDComponent";
+import KeyboardEventComponent from "../Component/Components/KeyboardEventComponent";
 
 const movementLut: { [key: string]: vec3 | undefined } = {
 	'w': vec3.fromValues(0, -1, 0),
